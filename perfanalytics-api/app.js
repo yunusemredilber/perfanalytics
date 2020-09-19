@@ -14,5 +14,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/perfanalytics', express.static(path.join(__dirname, '../perfanalytics-js/src')));
 
 module.exports = app;
