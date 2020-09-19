@@ -7,11 +7,13 @@ import theme from './theme';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-  <ThemeProvider theme={theme}>
-    {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-    <CssBaseline />
-    <App />
-  </ThemeProvider>,
+  <React.StrictMode>
+    <ThemeProvider theme={theme}>
+      {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+      <CssBaseline />
+      <App />
+    </ThemeProvider>
+  </React.StrictMode>,
   document.getElementById('root')
 );
 
