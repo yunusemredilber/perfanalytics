@@ -1,7 +1,7 @@
 const initPerfanalytics = () => {
   window.__perfanalytics = {
     values: {
-      network_timings: {}
+      files: []
     }
   }
 
@@ -22,7 +22,7 @@ const initPerfanalytics = () => {
 
     const getTimingFromEntry = entry => ({
       name: entry.name,
-      type: entry.initiatorType,
+      file_type: entry.initiatorType,
       responseEnd: entry.responseEnd
     })
   
@@ -31,16 +31,8 @@ const initPerfanalytics = () => {
         getPerfanalytics().values['fcp'] = asSeconds(entry.startTime)
       },
       resource(entry) {
-        const network_timings = getPerfanalytics().values.network_timings
-        if(network_timings[entry.initiatorType]) {
-          network_timings[entry.initiatorType].total += asSeconds(entry.responseEnd)
-          network_timings[entry.initiatorType].items.push(getTimingFromEntry(entry))
-        } else {
-          network_timings[entry.initiatorType] = {
-            total: asSeconds(entry.responseEnd),
-            items: [getTimingFromEntry(entry)]
-          }
-        }
+        const files = getPerfanalytics().values.files
+        files.push(getTimingFromEntry(entry))
       }
     }
     
@@ -54,17 +46,27 @@ const initPerfanalytics = () => {
 
   startObserver()
 
-  const sendData = () => {
+  const sendData = async () => {
     const { performance: { timing } } = window
     const values = window.__perfanalytics.values
 
     values['ttfb'] = asSeconds(timing.responseStart - timing.requestStart) // Time To First Byte
     values['dom_load'] = asSeconds(timing.domContentLoadedEventEnd - timing.navigationStart)
     values['window_load'] = asSeconds(timing.domInteractive - timing.navigationStart)
-    values['network_timings']['document'] = asSeconds(timing.responseEnd - timing.navigationStart)
+    values['files']['document'] = asSeconds(timing.responseEnd - timing.navigationStart)
 
     console.log('***', values)
-    // TODO: Send the data without harming client performance
+    
+    const rawResponse = await fetch('http://localhost:3000/metrics', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(values)
+    });
+    const res = await rawResponse.json();
+    console.log(res);
   }
 
   console.log(window.performance)

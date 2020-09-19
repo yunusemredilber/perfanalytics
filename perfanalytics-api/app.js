@@ -4,8 +4,10 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
+var metricsRouter = require('./routes/metrics');
+
 require('dotenv').config()
-var db = require('./services/db')
+var db = require('./db')
 db()
 var app = express();
 
@@ -15,7 +17,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Cors
+var cors = require('cors')
+app.use(cors())
+
 app.use('/', indexRouter);
+app.use('/metrics', metricsRouter);
 app.use('/perfanalytics', express.static(path.join(__dirname, '../perfanalytics-js/src')));
 
 module.exports = app;
