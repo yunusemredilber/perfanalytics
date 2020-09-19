@@ -1,8 +1,9 @@
 function Perfanalytics() {
   this.init = () => {
-    if(!isPerformanceSupported()) {
+    if(!this.isPerformanceSupported()) {
       return
     }
+    this.startObserver()
     console.log(window.performance)
     
     window.__perfanalytics = {
@@ -26,6 +27,43 @@ function Perfanalytics() {
   }
 
   this.getPerfanalytics = () => window.__perfanalytics
+
+  this.asSeconds = ms => ms / 1000
+  
+  this.startObserver = () => {
+    if(typeof(PerformanceObserver) === 'undefined') return
+
+    const getTimingFromEntry = entry => ({
+      name: entry.name,
+      type: entry.initiatorType,
+      responseEnd: entry.responseEnd
+    })
+  
+    const observerEntryHandlers = {
+      paint(entry) {
+        this.getPerfanalytics().values['fcp'] = this.asSeconds(entry.startTime)
+      },
+      resource(entry) {
+        const network_timings = this.getPerfanalytics().values.network_timings
+        if(network_timings[entry.initiatorType]) {
+          network_timings[entry.initiatorType].total += this.asSeconds(entry.responseEnd)
+          network_timings[entry.initiatorType].items.push(getTimingFromEntry(entry))
+        } else {
+          network_timings[entry.initiatorType] = {
+            total: this.asSeconds(entry.responseEnd),
+            items: [getTimingFromEntry(entry)]
+          }
+        }
+      }
+    }
+    
+    const observer = new PerformanceObserver((list) => {
+      for (const entry of list.getEntries()) {
+        observerEntryHandlers[entry.entryType](entry)
+      }
+    })
+    observer.observe({entryTypes: ['paint', 'resource']})
+  }
 }
 
 Perfanalytics.init()
