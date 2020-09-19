@@ -18,6 +18,12 @@ function Perfanalytics() {
   this.sendData = () => {
     const { performance: { timing } } = window
     const values = window.__perfanalytics.values
+
+    values['ttfb'] = asSeconds(timing.responseStart - timing.requestStart) // Time To First Byte
+    values['dom_load'] = asSeconds(timing.domContentLoadedEventEnd - timing.navigationStart)
+    values['window_load'] = asSeconds(timing.domInteractive - timing.navigationStart)
+    values['network_timings']['document'] = asSeconds(timing.responseEnd - timing.navigationStart)
+
     console.log('***', values)
     // TODO: Send the data without harming client performance
   }
