@@ -1,13 +1,11 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
+import Dashboard from "./components/Dashboard";
 
 function App() {
   return (
     <Container>
-      <Button variant="contained" color="primary">
-        Hello World
-      </Button>
+      <Dashboard />
     </Container>
   );
 }
