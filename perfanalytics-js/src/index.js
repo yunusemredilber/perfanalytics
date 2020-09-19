@@ -1,7 +1,9 @@
 const initPerfanalytics = () => {
   window.__perfanalytics = {
     values: {
-      files: []
+      files: [],
+      url: window.location.href,
+      user_agent: navigator.userAgent
     }
   }
 

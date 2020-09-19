@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
 const metricScheme = new mongoose.Schema({
+  url: String,
+  user_agent: String,
   dom_load: Number,
   fcp: Number,
   ttfb: Number,

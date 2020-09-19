@@ -12,7 +12,6 @@ router.get('/', function(req, res, next) {
 });
 
 router.post("/", function(req, res, next){
-  console.log(req.body.fcp)
   new Metric(req.body).save().then(metric => {
     res.json({
       message: 'Metric saved',
