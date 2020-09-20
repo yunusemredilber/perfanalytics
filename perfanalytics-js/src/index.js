@@ -55,10 +55,11 @@ const initPerfanalytics = () => {
     values['ttfb'] = asSeconds(timing.responseStart - timing.requestStart) // Time To First Byte
     values['dom_load'] = asSeconds(timing.domContentLoadedEventEnd - timing.navigationStart)
     values['window_load'] = asSeconds(timing.domInteractive - timing.navigationStart)
+    values['navigation_started_at'] = new Date(timing.navigationStart).toString()
     values['files']['document'] = asSeconds(timing.responseEnd - timing.navigationStart)
 
     console.log('***', values)
-    
+
     const rawResponse = await fetch('http://localhost:3000/metrics', {
       method: 'POST',
       headers: {

@@ -11,7 +11,8 @@ const metricScheme = new mongoose.Schema({
     name: String,
     file_type: String,
     responseEnd: Number
-  }]
+  }],
+  navigation_started_at: Date
 });
 
 module.exports = mongoose.model('Metric', metricScheme)
