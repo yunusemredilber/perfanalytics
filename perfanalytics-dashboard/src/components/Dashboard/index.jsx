@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard() {
+export default function Dashboard({darkMode}) {
   const [metrics, setMetrics] = useState({
     data: [],
     isLoading: false,
@@ -32,7 +32,7 @@ export default function Dashboard() {
 
   const LineMetricChart = ({name, metric_key}) => <LineChart name={name} metrics={metrics} metric_key={metric_key} />
 
-  const fetchMetrics = () => {
+  const fetchMetrics = (queryParams = '') => {
     setMetrics({...metrics, isLoading: true, error: null})
     getMetrics({
       onSuccess(result){
@@ -42,7 +42,7 @@ export default function Dashboard() {
         setMetrics({...metrics, data: [], error})
         console.error(error)
       }
-    })
+    }, queryParams)
     setMetrics({...metrics, isLoading: false})
   }
 
@@ -55,7 +55,7 @@ export default function Dashboard() {
   return (
     <Grid container spacing={3} className={classes.root}>
       <Grid item xs={12}>
-        <DashboardControls />
+        <DashboardControls darkMode={darkMode} fetchMetrics={fetchMetrics} />
       </Grid>
       <Grid item xs={12} md={6} lg={6}>
         <Paper className={fixedHeightPaper}>
