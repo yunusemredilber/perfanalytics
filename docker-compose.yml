@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  perfanalytics-dashboard:
+    build: ./perfanalytics-dashboard
+    ports:
+      - "80:80"
+    container_name: perfanalytics-dashboard
+    stdin_open: true
+  perfanalytics-api:
+    build: ./perfanalytics-api
+    ports:
+      - "4040:3000"
+    container_name: perfanalytics-api
+    stdin_open: true
+  test-client-react:
+    build: ./test-client-react
+    ports:
+      - "3000:80"
+    container_name: test-client-react
+    stdin_open: true

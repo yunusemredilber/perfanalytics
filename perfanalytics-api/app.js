@@ -23,6 +23,5 @@ app.use(cors())
 
 app.use('/', indexRouter);
 app.use('/metrics', metricsRouter);
-app.use('/perfanalytics', express.static(path.join(__dirname, '../perfanalytics-js/src')));
 
 module.exports = app;
