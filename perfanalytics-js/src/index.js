@@ -25,7 +25,7 @@ const initPerfanalytics = () => {
     const getTimingFromEntry = entry => ({
       name: entry.name,
       file_type: entry.initiatorType,
-      responseEnd: entry.responseEnd
+      responseEnd: asSeconds(entry.responseEnd)
     })
   
     const observerEntryHandlers = {

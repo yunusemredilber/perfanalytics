@@ -2,33 +2,31 @@ import React from 'react';
 import { LineChart as LC, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 import useTheme from "@material-ui/core/styles/useTheme";
 import Typography from "@material-ui/core/Typography";
+import moment from "moment";
 
-function createData(time, amount) {
-  return { time, amount };
+function createData(time, value) {
+  return { time, value }
 }
 
-const dummyData = [
-  createData('00:00', 0),
-  createData('03:00', 300),
-  createData('06:00', 600),
-  createData('09:00', 800),
-  createData('12:00', 1500),
-  createData('15:00', 2000),
-  createData('18:00', 2400),
-  createData('21:00', 2400),
-  createData('24:00', undefined),
-];
+const filterMetrics = (metrics, key) => {
+  if(!metrics) return []
 
-export default function LineChart({name}) {
-  const theme = useTheme();
+  return metrics.data.map(metric => createData(moment(metric.navigation_started_at).unix(), metric[key]))
+}
+
+export default function LineChart({name, metrics, metric_key}) {
+  const values = filterMetrics(metrics, metric_key)
+  console.log(values)
+  const theme = useTheme()
   return (
     <>
-      <Typography align="center" component="h2" variant="h6" color="primary">
+      <Typography align="center" component="h2" variant="h6">
         { name }
       </Typography>
       <ResponsiveContainer>
         <LC
-          data={dummyData}
+          data={values}
+          key={metrics.data.length > 0 /* To start the animation when the metrics came */}
           margin={{
             top: 16,
             right: 48,
@@ -36,9 +34,14 @@ export default function LineChart({name}) {
             left: 0,
           }}
         >
-          <XAxis dataKey="time" stroke={theme.palette.text.secondary} />
-          <YAxis stroke={theme.palette.text.secondary} />
-          <Line type="monotone" dataKey="amount" stroke={theme.palette.primary.main} dot={false} />
+          <XAxis dataKey="time"
+                 type="number"
+                 stroke={theme.palette.text.secondary}
+                 tickFormatter={unixTime => moment.unix(unixTime).format('HH:mm')}
+                 domain={[values?.[0]?.time, values?.[values?.length]?.time]} />
+          <YAxis stroke={theme.palette.text.secondary}
+                 tickFormatter={value => `${value} s`} />
+          <Line type="monotone" dataKey="value" stroke={theme.palette.primary.main} dot={false} />
         </LC>
       </ResponsiveContainer>
     </>

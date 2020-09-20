@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import clsx from "clsx";
 import LineChart from "../LineChart";
 import DashboardControls from "../DashboardControls";
+import { getMetrics } from '../../api/metrics'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,6 +24,32 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Dashboard() {
+  const [metrics, setMetrics] = useState({
+    data: [],
+    isLoading: false,
+    error: null
+  });
+
+  const LineMetricChart = ({name, metric_key}) => <LineChart name={name} metrics={metrics} metric_key={metric_key} />
+
+  const fetchMetrics = () => {
+    setMetrics({...metrics, isLoading: true, error: null})
+    getMetrics({
+      onSuccess(result){
+        setMetrics({...metrics, data: result.data})
+      },
+      onError(error) {
+        setMetrics({...metrics, data: [], error})
+        console.error(error)
+      }
+    })
+    setMetrics({...metrics, isLoading: false})
+  }
+
+  useEffect(() => {
+    fetchMetrics()
+  }, []);
+
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   return (
@@ -32,22 +59,22 @@ export default function Dashboard() {
       </Grid>
       <Grid item xs={12} md={6} lg={6}>
         <Paper className={fixedHeightPaper}>
-          <LineChart name="TTFB" />
+          <LineMetricChart name="TTFB" metric_key="ttfb" />
         </Paper>
       </Grid>
       <Grid item xs={12} md={6} lg={6}>
         <Paper className={fixedHeightPaper}>
-          <LineChart name="FCP" />
+          <LineMetricChart name="FCP" metric_key="fcp" />
         </Paper>
       </Grid>
       <Grid item xs={12} md={6} lg={6}>
         <Paper className={fixedHeightPaper}>
-          <LineChart name="DOM Load" />
+          <LineMetricChart name="DOM Load" metric_key="dom_load" />
         </Paper>
       </Grid>
       <Grid item xs={12} md={6} lg={6}>
         <Paper className={fixedHeightPaper}>
-          <LineChart name="Window Load" />
+          <LineMetricChart name="Window Load" metric_key="window_load" />
         </Paper>
       </Grid>
       <Grid item xs={12}>
