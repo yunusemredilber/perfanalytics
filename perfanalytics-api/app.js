@@ -24,4 +24,14 @@ app.use(cors())
 app.use('/', indexRouter);
 app.use('/metrics', metricsRouter);
 
+app.use(express.static(path.join(__dirname, '../perfanalytics-dashboard/build')));
+app.get('/dashboard/*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../perfanalytics-dashboard', 'build', 'index.html'));
+});
+
+app.use(express.static(path.join(__dirname, '../test-client-react/build')));
+app.get('/test/*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../test-client-react', 'build', 'index.html'));
+});
+
 module.exports = app;

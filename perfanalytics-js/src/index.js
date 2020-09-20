@@ -60,7 +60,7 @@ const initPerfanalytics = () => {
 
     console.log('***', values)
 
-    const rawResponse = await fetch('http://localhost:4040/metrics', {
+    const rawResponse = await fetch('/metrics', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
