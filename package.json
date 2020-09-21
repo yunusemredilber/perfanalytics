@@ -6,7 +6,9 @@
     "start": "node ./bin/www",
     "build": "npm run build:dashboard && npm run build:testapp",
     "build:dashboard": "cd perfanalytics-dashboard && npm install && npm run build && cd ..",
-    "build:testapp": "cd test-client-react && npm install && npm run build && cd .."
+    "build:testapp": "cd test-client-react && npm install && npm run build && cd ..",
+    "test": "npm run test:dashboard",
+    "test:dashboard": "cd perfanalytics-dashboard && yarn test && cd .."
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
