@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "npm run build:dashboard && npm run build:testapp && npm install && node ./bin/www",
-    "start:develop": "node ./bin/www",
+    "start": "node ./bin/www",
+    "build": "npm run build:dashboard && npm run build:testapp",
     "build:dashboard": "cd perfanalytics-dashboard && npm install && npm run build && cd ..",
     "build:testapp": "cd test-client-react && npm install && npm run build && cd .."
   },
