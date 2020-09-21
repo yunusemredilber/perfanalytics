@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "(cd perfanalytics-dashboard && npm run build) & (cd test-client-react && npm run build) & node ./bin/www",
+    "start": "cd perfanalytics-dashboard && npm run build && cd ../test-client-react && npm run build && cd .. && node ./bin/www",
     "start:develop": "node ./bin/www"
   },
   "dependencies": {
