@@ -3,8 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "cd perfanalytics-dashboard && npm run build && cd ../test-client-react && npm run build && cd .. && node ./bin/www",
-    "start:develop": "node ./bin/www"
+    "start": "npm run build:dashboard && npm run build:testapp && npm install && node ./bin/www",
+    "start:develop": "node ./bin/www",
+    "build:dashboard": "cd perfanalytics-dashboard && npm install && npm run build && cd ..",
+    "build:testapp": "cd test-client-react && npm install && npm run build && cd .."
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
