@@ -46,9 +46,7 @@ export default function Dashboard({darkMode}) {
     setMetrics({...metrics, isLoading: false})
   }
 
-  useEffect(() => {
-    fetchMetrics()
-  }, []);
+  useEffect(fetchMetrics, []);
 
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
