@@ -1,4 +1,4 @@
-const initPerfanalytics = () => {
+const initPerfanalytics = (serviceUrl = 'https://perfanalytics-app.herokuapp.com') => {
   window.__perfanalytics = {
     values: {
       files: [],
@@ -60,7 +60,7 @@ const initPerfanalytics = () => {
 
     console.log('***', values)
 
-    const rawResponse = await fetch('/metrics', {
+    const rawResponse = await fetch(`${serviceUrl}/metrics`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -76,5 +76,3 @@ const initPerfanalytics = () => {
 
   window.onload = sendData
 }
-
-initPerfanalytics()

@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <script src="perfanalytics.js"></script>
+    <script src="%REACT_APP_CLIENT_SCRIPT_PATH%"></script>
+    <script>
+      initPerfanalytics('%REACT_APP_SERVICE_URL%')
+    </script>
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
@@ -30,6 +33,7 @@
     <title>React App</title>
   </head>
   <body>
+  <p>%NODE_ENV%</p>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--
