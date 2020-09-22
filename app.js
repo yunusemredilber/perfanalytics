@@ -1,15 +1,15 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var metricsRouter = require('./routes/metrics');
+const indexRouter = require('./routes/index');
+const metricsRouter = require('./routes/metrics');
 
 require('dotenv').config()
-var db = require('./db')
+const db = require('./db')
 db()
-var app = express();
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -18,7 +18,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Cors
-var cors = require('cors')
+const cors = require('cors')
 app.use(cors())
 
 app.use('/', indexRouter);
