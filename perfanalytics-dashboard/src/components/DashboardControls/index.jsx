@@ -102,7 +102,7 @@ export default function DashboardControls({darkMode, fetchMetrics}) {
                   disableToolbar
                   format="MM/dd/yyyy"
                   margin="normal"
-                  id="date-picker-inline"
+                  id="change-date"
                   label="Date"
                   value={selectedFullDate}
                   onChange={setSelectedFullDate}
@@ -114,7 +114,7 @@ export default function DashboardControls({darkMode, fetchMetrics}) {
               <Grid item container xs={12} md={4} lg={3} justify="center">
                 <KeyboardTimePicker
                   margin="normal"
-                  id="time-picker"
+                  id="beginning-of-the-range"
                   label="Beginning of the range"
                   value={timeRangeMin}
                   ampm={false}
@@ -127,7 +127,7 @@ export default function DashboardControls({darkMode, fetchMetrics}) {
               <Grid item container xs={12} md={4} lg={3} justify="center">
                 <KeyboardTimePicker
                   margin="normal"
-                  id="time-picker"
+                  id="end-of-the-range"
                   label="End of the range"
                   value={timeRangeMax}
                   ampm={false}
