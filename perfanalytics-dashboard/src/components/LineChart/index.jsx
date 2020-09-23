@@ -3,6 +3,18 @@ import { LineChart as LC, Line, XAxis, YAxis, ResponsiveContainer } from 'rechar
 import useTheme from "@material-ui/core/styles/useTheme";
 import Typography from "@material-ui/core/Typography";
 import moment from "moment";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+
+const useStyles = makeStyles((theme) => ({
+  centerContainer: {
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+}));
 
 function createData(time, value) {
   return { time, value }
@@ -18,7 +30,23 @@ export default function LineChart({name, metrics, metric_key}) {
   const values = filterMetrics(metrics, metric_key)
   console.log(values)
   const theme = useTheme()
-  return (
+  const classes = useStyles()
+
+  const LoadingIndicator = () => (
+    <div className={classes.centerContainer}>
+      <CircularProgress />
+    </div>
+  )
+
+  const CenteredMessage = ({message}) => (
+    <div className={classes.centerContainer}>
+      <Typography variant="subtitle1">
+        { message }
+      </Typography>
+    </div>
+  )
+
+  const Chart = () => (
     <>
       <Typography align="center" component="h2" variant="h6">
         { name }
@@ -44,6 +72,15 @@ export default function LineChart({name, metrics, metric_key}) {
           <Line type="monotone" dataKey="value" stroke={theme.palette.primary.main} dot={false} />
         </LC>
       </ResponsiveContainer>
+    </>
+  )
+
+  return (
+    <>
+      {metrics.isLoading && <LoadingIndicator />}
+      {(!metrics.isLoading && metrics.data.length > 1) && <Chart />}
+      {(!metrics.isLoading && metrics.data.length < 2) && <CenteredMessage message="There is not enough data to draw the chart." />}
+      {metrics.error && <CenteredMessage message="An error occurred." />}
     </>
   );
 }

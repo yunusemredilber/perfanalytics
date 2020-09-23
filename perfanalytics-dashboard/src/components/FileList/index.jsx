@@ -29,6 +29,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const asFormattedNum = (num) => Number(num).toFixed(4)
+
 const getFilename = (url) => {
   const filename = decodeURIComponent(new URL(url).pathname.split('/').pop());
   return filename;
@@ -100,7 +102,7 @@ export default function FileList({files}) {
                   { getFilename(file.name) }
                 </Typography>
               }
-              secondary={file.responseEnd}
+              secondary={ asFormattedNum(file.responseEnd) }
             />
           </ListItem>
         ))}

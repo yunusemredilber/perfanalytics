@@ -2,8 +2,8 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import App from './App';
 
-test('renders ttfb chart title', () => {
+test('renders dark mode label', () => {
   const { getByText } = render(<App />);
-  const linkElement = getByText(/TTFB/i);
-  expect(linkElement).toBeInTheDocument();
+  const label = getByText(/Dark Mode/i);
+  expect(label).toBeInTheDocument();
 });

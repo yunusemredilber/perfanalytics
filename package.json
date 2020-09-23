@@ -7,7 +7,7 @@
     "build": "npm run build:dashboard && npm run build:testapp",
     "build:dashboard": "cd perfanalytics-dashboard && npm install && npm run build && cd ..",
     "build:testapp": "cd test-client-react && npm install && npm run build && cd ..",
-    "test": "npm run test:dashboard",
+    "test": "npm run test:dashboard && ./node_modules/mocha/bin/mocha --exit --timeout 10000",
     "test:dashboard": "cd perfanalytics-dashboard && yarn test && cd ..",
     "install:dashboard": "cd perfanalytics-dashboard && npm install && cd ..",
     "install:testapp": "cd test-client-react && npm install && cd ..",
@@ -16,11 +16,14 @@
     "start:testapp": "cd test-client-react && yarn start"
   },
   "dependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
+    "mocha": "^8.1.3",
     "mongoose": "^5.10.6",
     "morgan": "~1.9.1"
   }
