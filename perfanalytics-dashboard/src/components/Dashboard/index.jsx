@@ -37,14 +37,13 @@ export default function Dashboard({darkMode}) {
     setMetrics({...metrics, isLoading: true, error: null})
     getMetrics({
       onSuccess(result){
-        setMetrics({...metrics, data: result.data})
+        setMetrics({...metrics, data: result.data, isLoading: false})
       },
       onError(error) {
-        setMetrics({...metrics, data: [], error})
+        setMetrics({...metrics, data: [], error, isLoading: false})
         console.error(error)
       }
     }, queryParams)
-    setMetrics({...metrics, isLoading: false})
   }
 
   useEffect(fetchMetrics, []);
