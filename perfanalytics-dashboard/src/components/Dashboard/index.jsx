@@ -6,6 +6,7 @@ import clsx from "clsx";
 import LineChart from "../LineChart";
 import DashboardControls from "../DashboardControls";
 import { getMetrics } from '../../api/metrics'
+import DetailedMetrics from "../DetailedMetrics";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
   fixedHeight: {
     height: 260,
-  },
+  }
 }));
 
 export default function Dashboard({darkMode}) {
@@ -75,11 +76,14 @@ export default function Dashboard({darkMode}) {
           <LineMetricChart name="Window Load" metric_key="window_load" />
         </Paper>
       </Grid>
-      <Grid item xs={12}>
-        <Paper className={classes.paper}>
-          File Info
-        </Paper>
-      </Grid>
+      {
+        metrics.data && metrics.data.length > 0 &&
+        <Grid item xs={12}>
+          <Paper>
+            <DetailedMetrics metrics={metrics} />
+          </Paper>
+        </Grid>
+      }
     </Grid>
   );
 }

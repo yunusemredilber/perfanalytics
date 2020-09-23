@@ -22,7 +22,7 @@
     "recharts": "^1.8.5"
   },
   "scripts": {
-    "start": "env-cmd -f ../.env react-scripts start",
+    "start": "PORT=3001 env-cmd -f ../.env react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

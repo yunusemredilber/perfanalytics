@@ -8,7 +8,12 @@
     "build:dashboard": "cd perfanalytics-dashboard && npm install && npm run build && cd ..",
     "build:testapp": "cd test-client-react && npm install && npm run build && cd ..",
     "test": "npm run test:dashboard",
-    "test:dashboard": "cd perfanalytics-dashboard && yarn test && cd .."
+    "test:dashboard": "cd perfanalytics-dashboard && yarn test && cd ..",
+    "install:dashboard": "cd perfanalytics-dashboard && npm install && cd ..",
+    "install:testapp": "cd test-client-react && npm install && cd ..",
+    "install:all": "npm install && npm run install:dashboard && npm run install:testapp",
+    "start:dashboard": "cd perfanalytics-dashboard && yarn start",
+    "start:testapp": "cd test-client-react && yarn start"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
