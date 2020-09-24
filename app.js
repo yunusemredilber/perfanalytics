@@ -43,7 +43,7 @@ app.use(express.static(path.join(__dirname, './test-client-react/build')));
 });
 
 app.get('/perfanalytics.js', (req, res) => {
-  res.sendFile(path.resolve(__dirname, './perfanalytics-js', 'src', 'index.js'));
+  res.sendFile(path.resolve(__dirname, './perfanalytics-js', 'bundle.js'));
 });
 
 module.exports = app;
