@@ -31,6 +31,9 @@ const useStyles = makeStyles({
   },
   cardActions: {
     justifyContent: 'center'
+  },
+  overflowAuto: {
+    overflowY: 'auto'
   }
 });
 
@@ -41,7 +44,7 @@ export default function MetricCard({metric, next, previous, disableNext, disable
   console.log('metric', metric)
   return (
     <Card className={classes.root} variant="outlined">
-      <CardContent>
+      <CardContent className={classes.overflowAuto}>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
           {moment(metric?.navigation_started_at).format('DD/MM/YYYY - mm:hh:ss')}
         </Typography>
