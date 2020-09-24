@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -18,6 +18,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import moment from "moment";
 import queryString from "querystring"
+import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,10 +44,21 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  main: {
+    display: 'flex',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  currentRange: {
+    [theme.breakpoints.down('xs')]: {
+      flexGrow: 1
+    },
   }
 }));
 
-export default function DashboardControls({darkMode, fetchMetrics}) {
+function DashboardControls({darkMode, fetchMetrics}) {
   const [selectedFullDate, setSelectedFullDate] = React.useState(new Date())
   const [timeRangeMin, setTimeRangeMin] = React.useState(new Date())
   const [timeRangeMax, setTimeRangeMax] = React.useState(new Date())
@@ -76,22 +88,24 @@ export default function DashboardControls({darkMode, fetchMetrics}) {
           aria-controls="panel1c-content"
           id="panel1c-header"
         >
-          <div className={classes.column}>
-            <FormControlLabel
-              aria-label="Acknowledge"
-              onClick={(event) => {
-                event.stopPropagation()
-                darkMode.toggle()
-              }}
-              onFocus={(event) => event.stopPropagation()}
-              control={<Switch color="primary" checked={darkMode.isDarkMode} />}
-              label="Dark Mode"
-            />
-          </div>
-          <div className={classes.column}>
-            <Typography className={classes.secondaryHeading} align="center">
-              {currentRange()}
-            </Typography>
+          <div className={classes.main}>
+            <div className={classes.column}>
+              <FormControlLabel
+                aria-label="Acknowledge"
+                onClick={(event) => {
+                  event.stopPropagation()
+                  darkMode.toggle()
+                }}
+                onFocus={(event) => event.stopPropagation()}
+                control={<Switch color="primary" checked={darkMode.isDarkMode} />}
+                label="Dark Mode"
+              />
+            </div>
+            <div className={clsx(classes.column, classes.currentRange)}>
+              <Typography className={classes.secondaryHeading} align="center">
+                {currentRange()}
+              </Typography>
+            </div>
           </div>
         </AccordionSummary>
         <AccordionDetails className={classes.details}>
@@ -151,3 +165,5 @@ export default function DashboardControls({darkMode, fetchMetrics}) {
     </div>
   );
 }
+
+export default memo(DashboardControls)

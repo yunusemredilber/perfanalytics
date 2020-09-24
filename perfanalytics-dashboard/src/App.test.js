@@ -2,8 +2,8 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import App from './App';
 
-test('renders dark mode label', () => {
+test('renders title', () => {
   const { getByText } = render(<App />);
-  const label = getByText(/Dark Mode/i);
+  const label = getByText(/Perfanalytics Dashboard/i);
   expect(label).toBeInTheDocument();
 });
