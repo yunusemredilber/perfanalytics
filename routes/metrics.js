@@ -30,7 +30,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.post("/", function(req, res, next){
-  new Metric(req.body).save().then(metric => {
+  let params = req.body;
+  if(typeof params === 'string') {
+    params = JSON.parse(params)
+  }
+  new Metric(params).save().then(metric => {
     res.json({
       message: 'Metric saved',
       data: metric
