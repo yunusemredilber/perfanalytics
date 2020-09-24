@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function DashboardControls({darkMode, fetchMetrics}) {
+function DashboardControls({darkMode, fetchMetrics}) {
   const [selectedFullDate, setSelectedFullDate] = React.useState(new Date())
   const [timeRangeMin, setTimeRangeMin] = React.useState(new Date())
   const [timeRangeMax, setTimeRangeMax] = React.useState(new Date())
@@ -151,3 +151,5 @@ export default function DashboardControls({darkMode, fetchMetrics}) {
     </div>
   );
 }
+
+export default memo(DashboardControls)

@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, lazy, Suspense} from 'react';
 import Grid from "@material-ui/core/Grid";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import MetricCard from "../MetricCard";
-import FileList from "../FileList";
+
+const FileList = lazy(() => import('../FileList'));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,7 +40,9 @@ export default function DetailedMetrics({name, metrics}) {
                     disablePrevious={isFirst()} />
       </Grid>
       <Grid item xs={12} md={8} lg={8}>
-        <FileList files={metrics?.data[currentIndex]?.files} />
+        <Suspense fallback={<span/>}>
+          <FileList files={metrics?.data[currentIndex]?.files} />
+        </Suspense>
       </Grid>
     </Grid>
   );
