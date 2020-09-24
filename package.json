@@ -16,6 +16,7 @@
     "start:testapp": "cd test-client-react && yarn start"
   },
   "dependencies": {
+    "body-parser": "^1.19.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "cookie-parser": "~1.4.4",

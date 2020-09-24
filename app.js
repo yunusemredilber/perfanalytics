@@ -17,6 +17,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.text());
+
 // Cors
 const cors = require('cors')
 app.use(cors())
