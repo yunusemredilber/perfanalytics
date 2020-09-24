@@ -64,13 +64,8 @@ export const init = (serviceUrl = 'https://perfanalytics-app.herokuapp.com') => 
     values.navigation_started_at = new Date(timing.navigationStart).toString()
     values.files['document'] = asSeconds(timing.responseEnd - timing.navigationStart)
   }
-
-  console.log(window.performance)
-  const formData = serialize(getPerfanalytics().values);
-  console.log(formData, getPerfanalytics().values)
-  console.log(serialize)
   window.onload = onWindowLoad
-  window.addEventListener("unload", function logData() {
+  window.addEventListener("unload", function sendMetrics() {
     navigator.sendBeacon(`${serviceUrl}/metrics`, JSON.stringify(getPerfanalytics().values));
   });
 }
