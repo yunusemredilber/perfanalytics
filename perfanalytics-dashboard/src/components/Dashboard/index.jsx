@@ -1,12 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, lazy, Suspense} from 'react';
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import clsx from "clsx";
-import LineChart from "../LineChart";
-import DashboardControls from "../DashboardControls";
 import { getMetrics } from '../../api/metrics'
-import DetailedMetrics from "../DetailedMetrics";
+import {Typography} from "@material-ui/core";
+
+const LineChart = lazy(() => import("../LineChart"));
+const DetailedMetrics = lazy(() => import("../DetailedMetrics"));
+const DashboardControls = lazy(() => import("../DashboardControls"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,6 +23,12 @@ const useStyles = makeStyles((theme) => ({
   },
   fixedHeight: {
     height: 260,
+  },
+  titlePaper: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
   }
 }));
 
@@ -53,33 +61,52 @@ export default function Dashboard({darkMode}) {
   return (
     <Grid container spacing={3} className={classes.root}>
       <Grid item xs={12}>
-        <DashboardControls darkMode={darkMode} fetchMetrics={fetchMetrics} />
+        <Paper className={classes.titlePaper}>
+          <Typography variant="h5">
+            Perfanalytics Dashboard
+          </Typography>
+        </Paper>
+      </Grid>
+      <Grid item xs={12}>
+        <Suspense fallback={<span />}>
+          <DashboardControls darkMode={darkMode} fetchMetrics={fetchMetrics} />
+        </Suspense>
       </Grid>
       <Grid item xs={12} md={6} lg={6}>
         <Paper className={fixedHeightPaper}>
-          <LineMetricChart name="TTFB" metric_key="ttfb" />
+          <Suspense fallback={<span />}>
+            <LineMetricChart name="TTFB" metric_key="ttfb" />
+          </Suspense>
         </Paper>
       </Grid>
       <Grid item xs={12} md={6} lg={6}>
         <Paper className={fixedHeightPaper}>
-          <LineMetricChart name="FCP" metric_key="fcp" />
+          <Suspense fallback={<span />}>
+            <LineMetricChart name="FCP" metric_key="fcp" />
+          </Suspense>
         </Paper>
       </Grid>
       <Grid item xs={12} md={6} lg={6}>
         <Paper className={fixedHeightPaper}>
-          <LineMetricChart name="DOM Load" metric_key="dom_load" />
+          <Suspense fallback={<span />}>
+            <LineMetricChart name="DOM Load" metric_key="dom_load" />
+          </Suspense>
         </Paper>
       </Grid>
       <Grid item xs={12} md={6} lg={6}>
         <Paper className={fixedHeightPaper}>
-          <LineMetricChart name="Window Load" metric_key="window_load" />
+          <Suspense fallback={<span />}>
+            <LineMetricChart name="Window Load" metric_key="window_load" />
+          </Suspense>
         </Paper>
       </Grid>
       {
         metrics.data && metrics.data.length > 0 &&
         <Grid item xs={12}>
           <Paper>
-            <DetailedMetrics metrics={metrics} />
+            <Suspense fallback={<span />}>
+              <DetailedMetrics metrics={metrics} />
+            </Suspense>
           </Paper>
         </Grid>
       }
