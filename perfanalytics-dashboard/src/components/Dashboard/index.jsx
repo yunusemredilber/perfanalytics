@@ -4,6 +4,7 @@ import Paper from "@material-ui/core/Paper";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import clsx from "clsx";
 import { getMetrics } from '../../api/metrics'
+import {Typography} from "@material-ui/core";
 
 const LineChart = lazy(() => import("../LineChart"));
 const DetailedMetrics = lazy(() => import("../DetailedMetrics"));
@@ -22,6 +23,12 @@ const useStyles = makeStyles((theme) => ({
   },
   fixedHeight: {
     height: 260,
+  },
+  titlePaper: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
   }
 }));
 
@@ -53,6 +60,13 @@ export default function Dashboard({darkMode}) {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   return (
     <Grid container spacing={3} className={classes.root}>
+      <Grid item xs={12}>
+        <Paper className={classes.titlePaper}>
+          <Typography variant="h5">
+            Perfanalytics Dashboard
+          </Typography>
+        </Paper>
+      </Grid>
       <Grid item xs={12}>
         <Suspense fallback={<span />}>
           <DashboardControls darkMode={darkMode} fetchMetrics={fetchMetrics} />
