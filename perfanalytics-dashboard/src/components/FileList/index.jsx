@@ -90,7 +90,7 @@ export default function FileList({files}) {
     <>
       <List className={classes.list}>
         {files.map(file => (
-          <ListItem key={file.name}
+          <ListItem key={file.id}
                     button
                     onClick={() => { setChosenFile(file); setOpen(true); }}>
             <ListItemIcon>
