@@ -45,6 +45,19 @@ It relies on the following API's:
 
 All of them has enough support to use.
 
+#### Integration
+
+Add the following snippet to head tag of your web app:
+
+```html
+<script src="https://perfanalytics-app.herokuapp.com/perfanalytics.js"></script>
+<script>
+  perfanalytics.init();
+</script>
+```
+
+It will send the metrics asynchronous when you leave the app.
+
 ### Dashboard
 
 Dashboard written with React.
