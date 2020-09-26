@@ -2,7 +2,7 @@ import React from 'react';
 import { LineChart as LC, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 import useTheme from "@material-ui/core/styles/useTheme";
 import Typography from "@material-ui/core/Typography";
-import moment from "moment";
+import * as moment from 'moment-mini-ts';
 import CircularProgress from "@material-ui/core/CircularProgress";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
