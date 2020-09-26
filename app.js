@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const expressStaticGzip = require("express-static-gzip");
 
 const indexRouter = require('./routes/index');
 const metricsRouter = require('./routes/metrics');
@@ -11,6 +10,9 @@ require('dotenv').config()
 const db = require('./db')
 db()
 const app = express();
+
+const compression = require('compression');
+app.use(compression());
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -29,7 +31,6 @@ app.use(cors())
 app.use('/', indexRouter);
 app.use('/metrics', metricsRouter);
 
-app.use(expressStaticGzip(path.join(__dirname, './perfanalytics-dashboard/build'), { enableBrotli: true }));
 app.use(express.static(path.join(__dirname, './perfanalytics-dashboard/build')));
 ['/dashboard', '/dashboard/*'].forEach(p => {
   app.get(p, (req, res) => {
