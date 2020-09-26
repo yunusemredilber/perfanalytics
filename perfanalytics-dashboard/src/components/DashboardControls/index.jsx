@@ -16,7 +16,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import Grid from "@material-ui/core/Grid";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
-import moment from "moment";
+import * as moment from 'moment-mini-ts'
 import queryString from "querystring"
 import clsx from "clsx";
 
@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
 
 function DashboardControls({darkMode, fetchMetrics}) {
   const [selectedFullDate, setSelectedFullDate] = React.useState(new Date())
-  const [timeRangeMin, setTimeRangeMin] = React.useState(new Date())
+  const [timeRangeMin, setTimeRangeMin] = React.useState(moment().subtract(30, 'm').toDate())
   const [timeRangeMax, setTimeRangeMax] = React.useState(new Date())
   const classes = useStyles()
 
