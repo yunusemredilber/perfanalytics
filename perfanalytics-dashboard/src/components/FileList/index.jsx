@@ -58,7 +58,7 @@ const FileDetailDialog = ({open, setOpen, file}) => {
       <DialogTitle className={classes.breakWord} id="alert-dialog-title">{getFilename(file.name)}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Full URL: <Link className={classes.breakWord} href={file.name}>{ file.name }</Link>
+          Full URL: <Link color="inherit" className={classes.breakWord} href={file.name}>{ file.name }</Link>
           <br/>
           Respond End Time: { file.responseEnd }s
         </DialogContentText>
