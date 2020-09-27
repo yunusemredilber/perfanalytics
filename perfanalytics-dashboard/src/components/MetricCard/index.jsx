@@ -55,13 +55,13 @@ export default function MetricCard({metric, next, previous, disableNext, disable
           {metric?.user_agent}
         </Typography>
         <Typography variant="body2" component="p">
-          Time to First Byte: { asFormattedNum(metric?.ttfb) }s
+          Time to First Byte: { asFormattedNum(metric?.ttfb) } s
           <br />
-          Dom Load: { asFormattedNum(metric?.dom_load) }s
+          Dom Load: { asFormattedNum(metric?.dom_load) } s
           <br />
-          First Contentful Paint: { asFormattedNum(metric?.fcp) }s
+          First Contentful Paint: { asFormattedNum(metric?.fcp) } s
           <br />
-          Window Load: { asFormattedNum(metric?.window_load) }s
+          Window Load: { asFormattedNum(metric?.window_load) } s
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>

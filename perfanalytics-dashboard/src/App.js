@@ -3,12 +3,14 @@ import Container from '@material-ui/core/Container';
 import Dashboard from "./components/Dashboard";
 import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import {deepPurple} from "@material-ui/core/colors";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const theme = createMuiTheme({
     palette: {
-      type: isDarkMode ? 'dark' : 'light'
+      type: isDarkMode ? 'dark' : 'light',
+      primary: deepPurple
     },
   });
   const darkMode = { isDarkMode, toggle() { setIsDarkMode(!isDarkMode) } }

@@ -40,9 +40,11 @@ export default function DetailedMetrics({name, metrics}) {
                     disablePrevious={isFirst()} />
       </Grid>
       <Grid item xs={12} md={8} lg={8}>
-        <Suspense fallback={<span/>}>
-          <FileList files={metrics?.data[currentIndex]?.files} />
-        </Suspense>
+        {metrics.data.length > 0 &&
+          <Suspense fallback={<span/>}>
+            <FileList files={metrics?.data[currentIndex]?.files} />
+          </Suspense>
+        }
       </Grid>
     </Grid>
   );
