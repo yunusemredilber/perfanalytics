@@ -1,10 +1,10 @@
 import React, {useEffect, useState, lazy, Suspense} from 'react';
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import {makeStyles} from "@material-ui/core/styles";
 import clsx from "clsx";
 import { getMetrics } from '../../api/metrics'
-import {Typography} from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 
 const LineChart = lazy(() => import("../LineChart"));
 const DetailedMetrics = lazy(() => import("../DetailedMetrics"));
