@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const asFormattedNum = (num) => Number(num).toFixed(4)
+const asFormattedNum = (num) => `${Number(num).toFixed(4)} s`
 
 const getFilename = (url) => {
   const filename = decodeURIComponent(new URL(url).pathname.split('/').pop());
@@ -60,7 +60,7 @@ const FileDetailDialog = ({open, setOpen, file}) => {
         <DialogContentText id="alert-dialog-description">
           Full URL: <Link color="inherit" className={classes.breakWord} href={file.name}>{ file.name }</Link>
           <br/>
-          Respond End Time: { file.responseEnd }s
+          Respond End Time: { file.responseEnd } s
         </DialogContentText>
       </DialogContent>
       <DialogActions>
