@@ -14,6 +14,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import Link from "@material-ui/core/Link";
+import VirtualList from 'react-tiny-virtual-list';
 
 const useStyles = makeStyles((theme) => ({
   breakWord: {
@@ -76,6 +77,27 @@ export default function FileList({files}) {
   const [chosenFile, setChosenFile] = React.useState({});
   const classes = useStyles()
 
+  const Item = ({index, style}) => (
+    <ListItem key={files[index]._id}
+              button
+              style={style}
+              onClick={() => { setChosenFile(files[index]); setOpen(true); }}>
+      <ListItemIcon>
+        <FolderIcon />
+      </ListItemIcon>
+      <ListItemText
+        primary={
+          <Typography variant="subtitle1" className={classes.textOverflowEllipsis}>
+            { getFilename(files[index].name) }
+          </Typography>
+        }
+        secondary={ asFormattedNum(files[index].responseEnd) }
+      />
+    </ListItem>
+  )
+
+  const generateItem = ({index, style}) => <Item index={index} style={style} />
+
   if(!files) {
     return <div>
       <Chip
@@ -89,23 +111,13 @@ export default function FileList({files}) {
   return (
     <>
       <List className={classes.list}>
-        {files.map(file => (
-          <ListItem key={file._id}
-                    button
-                    onClick={() => { setChosenFile(file); setOpen(true); }}>
-            <ListItemIcon>
-              <FolderIcon />
-            </ListItemIcon>
-            <ListItemText
-              primary={
-                <Typography variant="subtitle1" className={classes.textOverflowEllipsis}>
-                  { getFilename(file.name) }
-                </Typography>
-              }
-              secondary={ asFormattedNum(file.responseEnd) }
-            />
-          </ListItem>
-        ))}
+        <VirtualList
+          width="100%"
+          height={280}
+          itemCount={files.length}
+          itemSize={60} // Also supports variable heights (array or function getter)
+          renderItem={generateItem}
+        />
       </List>
       <FileDetailDialog open={open} setOpen={setOpen} file={chosenFile} />
     </>
