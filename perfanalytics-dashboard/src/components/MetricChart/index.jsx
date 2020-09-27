@@ -28,15 +28,13 @@ const filterMetrics = (metrics, key) => {
 }
 
 export default function MetricChart({name, metrics, metric_key}) {
-  let [isDataFiltered, setIsDataFiltered] = useState(false)
-  let values = filterMetrics(metrics, metric_key)
+  let [values, setValues] = useState([])
   const theme = useTheme()
   const classes = useStyles()
 
   useEffect(() => {
-    values = filterMetrics(metrics, metric_key)
-    setIsDataFiltered(true)
-  }, [])
+    setValues(filterMetrics(metrics, metric_key))
+  }, [metrics, metric_key])
 
   const LoadingIndicator = () => (
     <div className={classes.centerContainer}>
@@ -60,7 +58,7 @@ export default function MetricChart({name, metrics, metric_key}) {
       {metrics.isLoading && <LoadingIndicator />}
       {(!metrics.isLoading && metrics.data.length > 1) &&
         <Suspense fallback={<LoadingIndicator />}>
-          {isDataFiltered && <LineChart data={values} theme={theme} />}
+          {values.length > 0 && <LineChart data={values} theme={theme} />}
         </Suspense>
       }
       {(!metrics.isLoading && metrics.data.length < 2) && <CenteredMessage message="There is not enough data to draw the chart." />}
