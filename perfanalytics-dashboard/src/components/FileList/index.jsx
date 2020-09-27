@@ -1,12 +1,12 @@
 import React from 'react';
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import {makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import FolderIcon from "@material-ui/icons/Folder"
-import {Typography} from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -14,6 +14,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import Link from "@material-ui/core/Link";
+import VirtualList from 'react-tiny-virtual-list';
 
 const useStyles = makeStyles((theme) => ({
   breakWord: {
@@ -76,6 +77,27 @@ export default function FileList({files}) {
   const [chosenFile, setChosenFile] = React.useState({});
   const classes = useStyles()
 
+  const Item = ({index, style}) => (
+    <ListItem key={files[index]._id}
+              button
+              style={style}
+              onClick={() => { setChosenFile(files[index]); setOpen(true); }}>
+      <ListItemIcon>
+        <FolderIcon />
+      </ListItemIcon>
+      <ListItemText
+        primary={
+          <Typography variant="subtitle1" className={classes.textOverflowEllipsis}>
+            { getFilename(files[index].name) }
+          </Typography>
+        }
+        secondary={ asFormattedNum(files[index].responseEnd) }
+      />
+    </ListItem>
+  )
+
+  const generateItem = ({index, style}) => <Item index={index} style={style} />
+
   if(!files) {
     return <div>
       <Chip
@@ -89,23 +111,13 @@ export default function FileList({files}) {
   return (
     <>
       <List className={classes.list}>
-        {files.map(file => (
-          <ListItem key={file.id}
-                    button
-                    onClick={() => { setChosenFile(file); setOpen(true); }}>
-            <ListItemIcon>
-              <FolderIcon />
-            </ListItemIcon>
-            <ListItemText
-              primary={
-                <Typography variant="subtitle1" className={classes.textOverflowEllipsis}>
-                  { getFilename(file.name) }
-                </Typography>
-              }
-              secondary={ asFormattedNum(file.responseEnd) }
-            />
-          </ListItem>
-        ))}
+        <VirtualList
+          width="100%"
+          height={280}
+          itemCount={files.length}
+          itemSize={60} // Also supports variable heights (array or function getter)
+          renderItem={generateItem}
+        />
       </List>
       <FileDetailDialog open={open} setOpen={setOpen} file={chosenFile} />
     </>

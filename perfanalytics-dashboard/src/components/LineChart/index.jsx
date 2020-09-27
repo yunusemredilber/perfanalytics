@@ -1,10 +1,14 @@
 import React from 'react';
-import { LineChart as LC, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import LC from 'recharts/es6/chart/LineChart';
+import Line from 'recharts/es6/cartesian/Line';
+import XAxis from 'recharts/es6/cartesian/XAxis';
+import YAxis from 'recharts/es6/cartesian/YAxis';
+import ResponsiveContainer from 'recharts/es6/component/ResponsiveContainer';
 import useTheme from "@material-ui/core/styles/useTheme";
 import Typography from "@material-ui/core/Typography";
-import * as moment from 'moment-mini-ts';
+import dayjs from 'dayjs';
 import CircularProgress from "@material-ui/core/CircularProgress";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   centerContainer: {
@@ -23,7 +27,7 @@ function createData(time, value) {
 const filterMetrics = (metrics, key) => {
   if(!metrics) return []
 
-  return metrics.data.map(metric => createData(moment(metric.navigation_started_at).unix(), metric[key]))
+  return metrics.data.map(metric => createData(dayjs(metric.navigation_started_at).unix(), metric[key]))
 }
 
 export default function LineChart({name, metrics, metric_key}) {
@@ -65,7 +69,7 @@ export default function LineChart({name, metrics, metric_key}) {
           <XAxis dataKey="time"
                  type="number"
                  stroke={theme.palette.text.secondary}
-                 tickFormatter={unixTime => moment.unix(unixTime).format('HH:mm')}
+                 tickFormatter={unixTime => dayjs.unix(unixTime).format('HH:mm')}
                  domain={[values?.[0]?.time, values?.[values?.length]?.time]} />
           <YAxis stroke={theme.palette.text.secondary}
                  tickFormatter={value => `${value} s`} />

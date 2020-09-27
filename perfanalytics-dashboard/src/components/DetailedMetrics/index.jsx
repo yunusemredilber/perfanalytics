@@ -1,6 +1,6 @@
 import React, {useState, lazy, Suspense} from 'react';
 import Grid from "@material-ui/core/Grid";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import {makeStyles} from "@material-ui/core/styles";
 import MetricCard from "../MetricCard";
 
 const FileList = lazy(() => import('../FileList'));
