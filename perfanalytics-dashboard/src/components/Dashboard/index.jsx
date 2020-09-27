@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { getMetrics } from '../../api/metrics'
 import Typography from "@material-ui/core/Typography";
 
-const LineChart = lazy(() => import("../LineChart"));
+const LineChart = lazy(() => import("../MetricChart"));
 const DetailedMetrics = lazy(() => import("../DetailedMetrics"));
 const DashboardControls = lazy(() => import("../DashboardControls"));
 

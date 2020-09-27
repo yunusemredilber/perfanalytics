@@ -77,11 +77,14 @@ export default function FileList({files}) {
   const [chosenFile, setChosenFile] = React.useState({});
   const classes = useStyles()
 
+  const onFileClick = index => () => {
+    setChosenFile(files[index])
+    setOpen(true)
+  }
+
   const Item = ({index, style}) => (
-    <ListItem key={files[index]._id}
-              button
-              style={style}
-              onClick={() => { setChosenFile(files[index]); setOpen(true); }}>
+    <ListItem button style={style}
+              onClick={onFileClick(index)}>
       <ListItemIcon>
         <FolderIcon />
       </ListItemIcon>
@@ -96,7 +99,7 @@ export default function FileList({files}) {
     </ListItem>
   )
 
-  const generateItem = ({index, style}) => <Item index={index} style={style} />
+  const generateItem = ({index, style}) => <Item index={index} style={style} key={files[index]._id} />
 
   if(!files) {
     return <div>

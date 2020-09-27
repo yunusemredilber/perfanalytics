@@ -1,7 +1,7 @@
+import React from "react";
 import DateFnsUtils from "@date-io/date-fns";
 import Grid from "@material-ui/core/Grid";
 import {KeyboardDatePicker, KeyboardTimePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
-import React from "react";
 
 export default function RangeSelector({selectedFullDate, setSelectedFullDate, timeRangeMin,
                                        setTimeRangeMin, timeRangeMax, setTimeRangeMax}) {
