@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const asFormattedNum = (num) => Number(num).toFixed(4)
+const asFormattedNum = (num) => `${Number(num).toFixed(4)} s`
 
 const getFilename = (url) => {
   const filename = decodeURIComponent(new URL(url).pathname.split('/').pop());
@@ -58,9 +58,9 @@ const FileDetailDialog = ({open, setOpen, file}) => {
       <DialogTitle className={classes.breakWord} id="alert-dialog-title">{getFilename(file.name)}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Full URL: <Link className={classes.breakWord} href={file.name}>{ file.name }</Link>
+          Full URL: <Link color="inherit" className={classes.breakWord} href={file.name}>{ file.name }</Link>
           <br/>
-          Respond End Time: { file.responseEnd }s
+          Respond End Time: { file.responseEnd } s
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -77,11 +77,14 @@ export default function FileList({files}) {
   const [chosenFile, setChosenFile] = React.useState({});
   const classes = useStyles()
 
+  const onFileClick = index => () => {
+    setChosenFile(files[index])
+    setOpen(true)
+  }
+
   const Item = ({index, style}) => (
-    <ListItem key={files[index]._id}
-              button
-              style={style}
-              onClick={() => { setChosenFile(files[index]); setOpen(true); }}>
+    <ListItem button style={style}
+              onClick={onFileClick(index)}>
       <ListItemIcon>
         <FolderIcon />
       </ListItemIcon>
@@ -96,7 +99,7 @@ export default function FileList({files}) {
     </ListItem>
   )
 
-  const generateItem = ({index, style}) => <Item index={index} style={style} />
+  const generateItem = ({index, style}) => <Item index={index} style={style} key={files[index]._id} />
 
   if(!files) {
     return <div>
