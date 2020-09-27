@@ -1,12 +1,12 @@
 import React from 'react';
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import {makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import FolderIcon from "@material-ui/icons/Folder"
-import {Typography} from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -90,7 +90,7 @@ export default function FileList({files}) {
     <>
       <List className={classes.list}>
         {files.map(file => (
-          <ListItem key={file.id}
+          <ListItem key={file._id}
                     button
                     onClick={() => { setChosenFile(file); setOpen(true); }}>
             <ListItemIcon>

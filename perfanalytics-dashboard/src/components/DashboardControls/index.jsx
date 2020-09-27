@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, lazy, Suspense} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -8,17 +8,14 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker, KeyboardTimePicker
-} from '@material-ui/pickers';
-import DateFnsUtils from "@date-io/date-fns";
 import Grid from "@material-ui/core/Grid";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
-import * as moment from 'moment-mini-ts'
+import dayjs from 'dayjs';
 import queryString from "querystring"
 import clsx from "clsx";
+
+const RangeSelector = lazy(() => import('./RangeSelector'))
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,15 +56,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function DashboardControls({darkMode, fetchMetrics}) {
+  const [expanded, setExpanded] = React.useState(false);
   const [selectedFullDate, setSelectedFullDate] = React.useState(new Date())
-  const [timeRangeMin, setTimeRangeMin] = React.useState(moment().subtract(30, 'm').toDate())
+  const [timeRangeMin, setTimeRangeMin] = React.useState(dayjs().subtract(30, 'm').toDate())
   const [timeRangeMax, setTimeRangeMax] = React.useState(new Date())
+  const [shouldShow, setShouldShow] = React.useState(false)
   const classes = useStyles()
 
   const updateMetrics = () => {
-    let fullDate = moment(selectedFullDate)
-    let rangeMin = moment(timeRangeMin).year(fullDate.year()).month(fullDate.month()).date(fullDate.date())
-    let rangeMax = moment(timeRangeMax).year(fullDate.year()).month(fullDate.month()).date(fullDate.date())
+    let fullDate = dayjs(selectedFullDate)
+    let rangeMin = dayjs(timeRangeMin).year(fullDate.year()).month(fullDate.month()).date(fullDate.date())
+    let rangeMax = dayjs(timeRangeMax).year(fullDate.year()).month(fullDate.month()).date(fullDate.date())
     console.log('***', rangeMin.toString(), rangeMax.toString())
     fetchMetrics('?' + queryString.stringify({
       min: rangeMin.toString(),
@@ -76,14 +75,22 @@ function DashboardControls({darkMode, fetchMetrics}) {
   }
 
   const currentRange = () => `${
-    moment(selectedFullDate).format('DD MM YYYY')} - ${
-    moment(timeRangeMin).format('HH:mm')} / ${
-    moment(timeRangeMax).format('HH:mm')}`
+    dayjs(selectedFullDate).format('DD MM YYYY')} - ${
+    dayjs(timeRangeMin).format('HH:mm')} / ${
+    dayjs(timeRangeMax).format('HH:mm')}`
+
+  const handleAccordionChange = () => {
+    setExpanded(!expanded);
+    setShouldShow(true);
+  };
 
   return (
     <div className={classes.root}>
-      <Accordion>
+      <Accordion expanded={expanded} onChange={handleAccordionChange}>
         <AccordionSummary
+          onClick={() => {
+
+          }}
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1c-content"
           id="panel1c-header"
@@ -110,48 +117,16 @@ function DashboardControls({darkMode, fetchMetrics}) {
         </AccordionSummary>
         <AccordionDetails className={classes.details}>
           <Grid container spacing={3}>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <Grid item container xs={12} md={4} lg={6} justify="center">
-                <KeyboardDatePicker
-                  disableToolbar
-                  format="MM/dd/yyyy"
-                  margin="normal"
-                  id="change-date"
-                  label="Date"
-                  value={selectedFullDate}
-                  onChange={setSelectedFullDate}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change date',
-                  }}
-                />
-              </Grid>
-              <Grid item container xs={12} md={4} lg={3} justify="center">
-                <KeyboardTimePicker
-                  margin="normal"
-                  id="beginning-of-the-range"
-                  label="Beginning of the range"
-                  value={timeRangeMin}
-                  ampm={false}
-                  onChange={setTimeRangeMin}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change time',
-                  }}
-                />
-              </Grid>
-              <Grid item container xs={12} md={4} lg={3} justify="center">
-                <KeyboardTimePicker
-                  margin="normal"
-                  id="end-of-the-range"
-                  label="End of the range"
-                  value={timeRangeMax}
-                  ampm={false}
-                  onChange={setTimeRangeMax}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change time',
-                  }}
-                />
-              </Grid>
-            </MuiPickersUtilsProvider>
+            {shouldShow &&
+              <Suspense fallback={<p>Loading...</p>}>
+                <RangeSelector selectedFullDate={selectedFullDate}
+                               setSelectedFullDate={setSelectedFullDate}
+                               timeRangeMin={timeRangeMin}
+                               setTimeRangeMin={setTimeRangeMin}
+                               timeRangeMax={timeRangeMax}
+                               setTimeRangeMax={setTimeRangeMax} />
+              </Suspense>
+            }
           </Grid>
         </AccordionDetails>
         <Divider />

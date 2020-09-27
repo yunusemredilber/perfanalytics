@@ -13,8 +13,8 @@
     "axios": "^0.20.0",
     "clsx": "^1.1.1",
     "date-fns": "^2.16.1",
+    "dayjs": "^1.8.36",
     "env-cmd": "^10.1.0",
-    "moment-mini-ts": "^2.20.1",
     "query-string": "^6.13.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -24,6 +24,7 @@
   "scripts": {
     "start": "PORT=3001 env-cmd -f ../.env react-scripts start",
     "build": "react-scripts build",
+    "build:dev": "env-cmd -f ../.env react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "analyze": "yarn source-map-explorer build/static/js/*"

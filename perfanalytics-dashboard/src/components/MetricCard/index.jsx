@@ -5,7 +5,7 @@ import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import * as moment from 'moment-mini-ts';
+import dayjs from 'dayjs';
 
 const useStyles = makeStyles({
   root: {
@@ -46,7 +46,7 @@ export default function MetricCard({metric, next, previous, disableNext, disable
     <Card className={classes.root} variant="outlined">
       <CardContent className={classes.overflowAuto}>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
-          {moment(metric?.navigation_started_at).format('DD/MM/YYYY - mm:hh:ss')}
+          {dayjs(metric?.navigation_started_at).format('DD/MM/YYYY - mm:hh:ss')}
         </Typography>
         <Typography variant="h5" component="h2">
           {metric?.url}
